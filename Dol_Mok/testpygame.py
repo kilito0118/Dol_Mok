@@ -52,23 +52,38 @@ def main():
     cnt=0
 
 
+
     while True:
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == MOUSEBUTTONDOWN:
+            elif event.type == MOUSEBUTTONDOWN and flag == False:
                 if event.pos[0]>800 or event.pos[1]>800:
                     continue 
                 if pan[event.pos[1]//100-1][event.pos[0]//100-1]==-1:
                     pan[event.pos[1]//100-1][event.pos[0]//100-1] = cnt%2
                     
                     gravity(dr)
+                    flag = True
+
                         
                 else:
                     continue
                 cnt+=1
-        
+            elif event.type == pygame.KEYDOWN and flag == True:
+                if event.key==pygame.K_LEFT:
+                    dr-=1
+                    flag = False
+
+                elif event.key==pygame.K_RIGHT:
+                    dr+=1
+                    flag = False
+                
+        if dr==-1:
+            dr = 3
+        elif dr==4:
+            dr = 0
         SURFACE.fill((0,0,0))
         if cnt%2==0:
             text_Title= font.render("Red 턴", True, 0xd0fc5c)
@@ -90,6 +105,7 @@ def main():
         for ypos in range(100,900,100):
             pygame.draw.line(SURFACE, 0xFFFFFF, (100,ypos), (800,ypos))
 
+        
 
         pygame.display.update()
         FPSCLOCK.tick(60)
