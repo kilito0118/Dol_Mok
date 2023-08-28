@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import QUIT, MOUSEBUTTONDOWN
 
 pygame.init()
-font = pygame.font.Font("Chilgok_Cye.ttf",80)
+font = pygame.font.Font("Dol_Mok\Chilgok_Cye.ttf",80)
 
 SURFACE = pygame.display.set_mode((1200,900))
 FPSCLOCK = pygame.time.Clock()
@@ -15,7 +15,7 @@ force = [([400, 870], [500, 870], [450, 830]),
         ([30, 400], [30, 500], [70, 450])
         ]
 pygame.display.set_caption("돌목")
-
+flag = False
 dr = 0
 def gravity(Direction : int):
     for i in range(7):
@@ -49,6 +49,7 @@ def gravity(Direction : int):
 
 
 def main():
+    global dr, flag
     cnt=0
 
 
@@ -91,7 +92,7 @@ def main():
             text_Title= font.render("Yellow 턴", True, 0xd0fc5c)
         pygame.draw.polygon(SURFACE, 0xd0fc5c, force[dr])
         SURFACE.blit(text_Title,[850,80])
- 
+        gravity(dr)
         for i in range(7):
             for j in range(7):
                 if pan[i][j]==1:
@@ -106,6 +107,7 @@ def main():
             pygame.draw.line(SURFACE, 0xFFFFFF, (100,ypos), (800,ypos))
 
         
+                    
 
         pygame.display.update()
         FPSCLOCK.tick(60)
