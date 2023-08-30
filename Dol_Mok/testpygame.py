@@ -51,7 +51,7 @@ def check(x,y):
                 break
         else:
             return pan[x][y]
-            print(1)
+            
     
     if x>3: 
         return
@@ -123,10 +123,10 @@ def game_end(k):
                 elif event.type == pygame.KEYDOWN:
                     if event.key==pygame.K_SPACE:
                         before_start()
-                        print(1)
+                        
                         show_dol()
                         main()
-                        print(1)
+                        
 
 
 
@@ -172,11 +172,11 @@ def gravity(Direction : int):
 def main():
     global dr, flag
     cnt=0
-    print(11)
+    
 
 
     while True:
-        print(pan)
+        
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
