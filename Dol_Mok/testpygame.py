@@ -3,7 +3,7 @@ import pygame
 from pygame.locals import QUIT, MOUSEBUTTONDOWN
 
 pygame.init()
-font = pygame.font.Font("Dol_Mok\Chilgok_Cye.ttf",80)
+font = pygame.font.Font("Chilgok_Cye.ttf",80)
 
 SURFACE = pygame.display.set_mode((1200,900))
 FPSCLOCK = pygame.time.Clock()
@@ -26,10 +26,10 @@ def before_start():
 
     global flag, dr
     pygame.init()
-    font = pygame.font.Font("Dol_Mok\Chilgok_Cye.ttf",80)
+    #font = pygame.font.Font("Dol_Mok\Chilgok_Cye.ttf",80)
 
-    SURFACE = pygame.display.set_mode((1200,900))
-    FPSCLOCK = pygame.time.Clock()
+    #SURFACE = pygame.display.set_mode((1200,900))
+    #FPSCLOCK = pygame.time.Clock()
     
     for i in range(7):
         for j in range(7):
@@ -38,44 +38,43 @@ def before_start():
     pygame.display.set_caption("돌목")
     flag = False
     dr = 0
-    dx = [0,0,-1,1]
-    dy = [1,-1,0,0]
+
 
 
 def check(x,y):
-    i,j = x,y
+    
     if y<4:
-
-        for i in range(4):
+        for i in range(4):#가로줄 4칸인지
             if pan[x][y+i]!=pan[x][y]:
                 break
         else:
             return pan[x][y]
-            
-    
-    if x>3: 
-        return
-    for i in range(4):
-        if pan[x+i][y]!=pan[x][y]:
-            break
-    else:
-        return pan[x][y]
-    if y<4:
-        for i in range(4):
-            if pan[x+i][y+i]!=pan[x][y]:
+        
+    if x<4:
+        for i in range(4):#세로줄 4칸인지
+            if pan[x+i][y]!=pan[x][y]:
                 break
         else:
             return pan[x][y]
-        
-    if y<4:
+            
+    if x>2 and y<4:#오른쪽 위 대각선
         for i in range(4):
-            if pan[x+i][y-i]!=pan[x][y]:
+            if pan[x-i][y+i]!=pan[x][y]:
                 break
         else:
             return pan[x][y]
 
+    if x<4 and y<4:
+        for i in range(4):#오른쪽 아래 대각선
+            if pan[x+i][y+i]!=pan[x][y]:
+                break
+        else:
+            return pan[x][y]
+
+
         
 def show_dol():
+        
         for i in range(7):
             for j in range(7):
                 if pan[i][j]==1:
@@ -104,6 +103,8 @@ def win():
 
 def game_end(k):
     if k != None:
+        
+        SURFACE.fill((0,0,0))
         show_dol()
         if k==0:
             k = "Red"
@@ -114,6 +115,7 @@ def game_end(k):
         SURFACE.blit(text_Title,[400,400])
         text = font.render("Press the SPACE to Restart", True,0xd0fc5c)
         SURFACE.blit(text,[200,500])
+        
         pygame.display.update()
         while True:
             for event in pygame.event.get():
@@ -125,6 +127,7 @@ def game_end(k):
                         before_start()
                         
                         show_dol()
+                        
                         main()
                         
 
@@ -172,11 +175,7 @@ def gravity(Direction : int):
 def main():
     global dr, flag
     cnt=0
-    
-
-
     while True:
-        
         for event in pygame.event.get():
             if event.type == QUIT:
                 pygame.quit()
@@ -206,6 +205,7 @@ def main():
                 elif event.key == pygame.K_DOWN:
                     flag = False
                     cnt+=1
+        
         game_end(win())
         
         if dr==-1:
@@ -221,6 +221,7 @@ def main():
         SURFACE.blit(text_Title,[850,80])
         show_dol()
         gravity(dr)
+        
         game_end(win())
         
 
